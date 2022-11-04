@@ -14,6 +14,9 @@ echo -e "export VAULT_ADDR="http://vault.leader.lab.io:8200"\ncomplete -C /usr/b
 echo "* Adding them for root account as well ..."
 sudo cp /home/vagrant/.bashrc /root/.bashrc
 
+echo "* Reload bashrc"
+source ~/.bashrc
+
 echo "* Install Software ..."
 sudo dnf upgrade -y
 sudo dnf install httpd git vim-enhanced jq telnet net-tools -y
@@ -50,5 +53,23 @@ sudo systemctl daemon-reload
 echo "* Allow HTTPD to make network connections ..."
 sudo setsebool -P httpd_can_network_connect=1
 
-echo "* Start the Vault cluster"
+echo "* Vault Cluster Node 1 is Starting ..."
 sudo systemctl start vault
+sleep 5
+
+echo "* Initializing Vault Cluster ..."
+vault operator init > /vagrant/unseal.conf
+
+echo "* Waiting for Vault Cluster Initialization ..."
+sleep 10
+
+echo "* Unsealing Node 1"
+cat /vagrant/unseal.conf | awk '{print $4}' | sed -n 1p | xargs vault operator unseal
+sleep 1
+cat /vagrant/unseal.conf | awk '{print $4}' | sed -n 2p | xargs vault operator unseal
+sleep 1
+cat /vagrant/unseal.conf | awk '{print $4}' | sed -n 3p | xargs vault operator unseal
+sleep 1
+
+echo "* Check Vault Status"
+vault status > /vagrant/vault_status.txt

@@ -14,6 +14,9 @@ echo -e "export VAULT_ADDR="http://vault.follower2.lab.io:8200"\ncomplete -C /us
 echo "* Adding them for root account as well ..."
 sudo cp /home/vagrant/.bashrc /root/.bashrc
 
+echo "* Reload bashrc"
+source ~/.bashrc
+
 echo "* Install Software ..."
 sudo dnf upgrade -y
 sudo dnf install git vim-enhanced jq telnet net-tools -y
@@ -40,5 +43,17 @@ sudo cp /vagrant/systemd/* /etc/systemd/system/
 echo "* Reload the daemon ..."
 sudo systemctl daemon-reload
 
-echo "* Start the Vault cluster"
+echo "* Vault Cluster Node 3 is Starting ..."
 sudo systemctl start vault
+sleep 5
+
+echo "* Unsealing Node 3"
+cat /vagrant/unseal.conf | awk '{print $4}' | sed -n 1p | xargs vault operator unseal
+sleep 1
+cat /vagrant/unseal.conf | awk '{print $4}' | sed -n 2p | xargs vault operator unseal
+sleep 1
+cat /vagrant/unseal.conf | awk '{print $4}' | sed -n 3p | xargs vault operator unseal
+sleep 1
+
+echo "* Check Vault Status"
+vault status >> /vagrant/vault_status.txt
