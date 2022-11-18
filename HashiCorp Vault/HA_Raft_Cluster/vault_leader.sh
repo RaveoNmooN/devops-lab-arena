@@ -64,12 +64,12 @@ echo "* Waiting for Vault Cluster Initialization ..."
 sleep 10
 
 echo "* Unsealing Node 1"
-awk '{print $4}'  | sed -n 1p | xargs vault operator unseal
-sleep 1
-awk '{print $4}'  | sed -n 2p | xargs vault operator unseal
-sleep 1
-awk '{print $4}'  | sed -n 3p | xargs vault operator unseal
-sleep 1
+awk '{print $4}' /vagrant/unseal.conf | sed -n 1p | xargs vault operator unseal
+sleep 2
+awk '{print $4}' /vagrant/unseal.conf | sed -n 2p | xargs vault operator unseal
+sleep 2
+awk '{print $4}' /vagrant/unseal.conf | sed -n 3p | xargs vault operator unseal
+sleep 2
 
 echo "* Check Vault Status"
 vault status > /vagrant/vault_status.txt
