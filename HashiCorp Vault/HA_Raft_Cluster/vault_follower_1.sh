@@ -1,9 +1,9 @@
 #!/bin/bash
 
 echo "* Adding hosts ..."
-echo "192.168.0.106 vault.leader.lab.io vault.leader.lab.io" >> /etc/hosts
-echo "192.168.0.107 vault.follower1.lab.io vault.follower1.lab.io" >> /etc/hosts
-echo "192.168.0.108 vault.follower2.lab.io vault.follower2.lab.io" >> /etc/hosts
+echo "192.168.89.101 vault.leader.lab.io vault.leader.lab.io" >> /etc/hosts
+echo "192.168.89.102 vault.follower1.lab.io vault.follower1.lab.io" >> /etc/hosts
+echo "192.168.89.103 vault.follower2.lab.io vault.follower2.lab.io" >> /etc/hosts
 
 echo "* Addinb customized PS1 profile ..."
 echo "export PS1='\[\e[0m\][\[\e[0;1;38;5;253m\]\u\[\e[0;1;38;5;98m\]@\[\e[0;1;38;5;98m\]\H\[\e[0m\]] \[\e[0;38;5;214m\]\t \[\e[0;1;38;5;75m\]\w \[\e[0;38;5;34m\]$(git branch 2>/dev/null | grep '"'"'^*'"'"' | colrm 1 2)\[\e[0;38;5;253m\]# \[\e[0m\]'" >> /home/vagrant/.bashrc
@@ -47,12 +47,12 @@ echo "* Vault Cluster Node 2 is Starting ..."
 sudo systemctl start vault
 sleep 5
 
-echo "* Unsealing Node 2"
-cat /vagrant/unseal.conf | awk '{print $4}' | sed -n 1p | xargs vault operator unseal
+echo "* Unsealing Node 3"
+awk '{print $4}' /vagrant/unseal.conf | sed -n 1p | xargs vault operator unseal
 sleep 1
-cat /vagrant/unseal.conf | awk '{print $4}' | sed -n 2p | xargs vault operator unseal
+awk '{print $4}' /vagrant/unseal.conf | sed -n 2p | xargs vault operator unseal
 sleep 1
-cat /vagrant/unseal.conf | awk '{print $4}' | sed -n 3p | xargs vault operator unseal
+awk '{print $4}' /vagrant/unseal.conf | sed -n 3p | xargs vault operator unseal
 sleep 1
 
 echo "* Check Vault Status"

@@ -1,13 +1,6 @@
-
-
 vault operator init
 vault operator status
 vault operator unseal
 vault operator raft list-peers
 vault operator raft autopilot state
-
-
-
-
-
 vault operator raft snapshot save demo.snapshot

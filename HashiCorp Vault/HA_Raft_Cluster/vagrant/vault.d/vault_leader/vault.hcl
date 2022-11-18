@@ -13,8 +13,8 @@ cluster_addr = "http://vault.leader.lab.io:8201"
 
 # HTTPS listener
 listener "tcp" {
-  address       = "192.168.0.106:8200"
-  cluster_address = "192.168.0.106:8201"
+  address       = "192.168.89.101:8200"
+  cluster_address = "192.168.89.101:8201"
   tls_disable = "true"
 }
 
@@ -22,11 +22,6 @@ listener "tcp" {
 storage "raft" {
   path = "/opt/vault/data"
   node_id = "vault_node_1"
-
-  retry_join {
-      leader_tls_servername   = "vault.leader.lab.io"
-      leader_api_addr = "http://vault.leader.lab.io:8200"
-  }
 
   retry_join {
       leader_tls_servername   = "vault.follower1.lab.io"

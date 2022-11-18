@@ -6,9 +6,13 @@ Vagrant.configure("2") do |config|
   config.ssh.insert_key = false
 
   config.vm.define "vault.leader.lab.io" do |vault_leader|
-    vault_leader.vm.box="generic/centos8s"
+    vault_leader.vm.box="SleepingmooN/CentOS-8"
     vault_leader.vm.hostname = "vault.leader.lab.io"
-    vault_leader.vm.network "public_network", ip: "192.168.0.106", bridge: "Intel(R) I211 Gigabit Network Connection"
+    config.vm.provider "virtualbox"  do |vault_leader|
+      vault_leader.customize ["modifyvm", :id, "--cpus", "2"]
+    end
+    #vault_leader.vm.network "public_network", ip: "192.168.0.106", bridge: "Intel(R) I211 Gigabit Network Connection"
+    vault_leader.vm.network "private_network", ip: "192.168.89.101"
     vault_leader.vm.network "forwarded_port", guest: 80, host: 8080, auto_correct: true
     vault_leader.vm.network "forwarded_port", guest: 443, host: 1443, auto_correct: true
     vault_leader.vm.synced_folder "vagrant", "/vagrant"
@@ -16,9 +20,13 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "vault.follower1.lab.io" do |vault_follower1|
-    vault_follower1.vm.box="generic/centos8s"
+    vault_follower1.vm.box="SleepingmooN/CentOS-8"
     vault_follower1.vm.hostname = "vault.follower1.lab.io"
-    vault_follower1.vm.network "public_network", ip: "192.168.0.107", bridge: "Intel(R) I211 Gigabit Network Connection"
+    config.vm.provider "virtualbox"  do |vault_follower1|
+      vault_follower1.customize ["modifyvm", :id, "--cpus", "2"]
+    end 
+    #vault_follower1.vm.network "public_network", ip: "192.168.0.107", bridge: "Intel(R) I211 Gigabit Network Connection"
+    vault_follower1.vm.network "private_network", ip: "192.168.89.102"
     vault_follower1.vm.network "forwarded_port", guest: 80, host: 8081, auto_correct: true
     vault_follower1.vm.network "forwarded_port", guest: 443, host: 1444, auto_correct: true
     vault_follower1.vm.synced_folder "vagrant", "/vagrant"
@@ -26,9 +34,13 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "vault.follower2.lab.io" do |vault_follower2|
-    vault_follower2.vm.box="generic/centos8s"
+    vault_follower2.vm.box="SleepingmooN/CentOS-8"
     vault_follower2.vm.hostname = "vault.follower2.lab.io"
-    vault_follower2.vm.network "public_network", ip: "192.168.0.108", bridge: "Intel(R) I211 Gigabit Network Connection"
+    config.vm.provider "virtualbox"  do |vault_follower2|
+      vault_follower2.customize ["modifyvm", :id, "--cpus", "2"]
+    end
+    #vault_follower2.vm.network "public_network", ip: "192.168.0.108", bridge: "Intel(R) I211 Gigabit Network Connection"
+    vault_follower2.vm.network "private_network", ip: "192.168.89.103"
     vault_follower2.vm.network "forwarded_port", guest: 80, host: 8082, auto_correct: true
     vault_follower2.vm.network "forwarded_port", guest: 443, host: 1445, auto_correct: true
     vault_follower2.vm.synced_folder "vagrant", "/vagrant"
