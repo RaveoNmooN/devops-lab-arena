@@ -39,6 +39,11 @@ sudo cp /vagrant/vault.d/vault_follower_2/* /etc/vault.d/
 sudo chown vault:vault /etc/vault.d/*
 sudo chmod 664 /etc/vault.d/*
 sudo cp /vagrant/systemd/* /etc/systemd/system/
+sudo cp /vagrant/unseal-vault /etc/init.d/
+
+echo "* Create a cronjob that is enabling /etc/init.d/unseal-vault to be executed on reboots"
+sudo echo "@reboot sleep 10 && sh /etc/init.d/unseal-vault" > /var/spool/cron/vagrant
+sudo chown vagrant:vagrant /var/spool/cron/vagrant && sudo chmod 600 /var/spool/cron/vagrant
 
 echo "* Reload the daemon ..."
 sudo systemctl daemon-reload
