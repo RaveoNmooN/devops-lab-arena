@@ -109,9 +109,6 @@ vault audit disable file-audit
 vault audit list [options]
 ```
 
-
-
-
 ##### Draft
 
 vault operator init
