@@ -1,2 +1,4 @@
 Tokens
 .vagrant
+vagrant/unseal.conf
+vagrant/vault_status.txt
