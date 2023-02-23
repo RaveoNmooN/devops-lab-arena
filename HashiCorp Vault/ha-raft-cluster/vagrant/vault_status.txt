@@ -1,0 +1,54 @@
+Key                     Value
+---                     -----
+Seal Type               shamir
+Initialized             true
+Sealed                  false
+Total Shares            5
+Threshold               3
+Version                 1.12.2
+Build Date              2022-11-23T12:53:46Z
+Storage Type            raft
+Cluster Name            vault-cluster-76b96042
+Cluster ID              01b0803f-f23e-c3cc-c2eb-78cf911789b9
+HA Enabled              true
+HA Cluster              https://vault.leader.lab.io:8201
+HA Mode                 active
+Active Since            2023-02-01T14:59:51.188735996Z
+Raft Committed Index    36
+Raft Applied Index      36
+Key                     Value
+---                     -----
+Seal Type               shamir
+Initialized             true
+Sealed                  false
+Total Shares            5
+Threshold               3
+Version                 1.12.2
+Build Date              2022-11-23T12:53:46Z
+Storage Type            raft
+Cluster Name            vault-cluster-76b96042
+Cluster ID              01b0803f-f23e-c3cc-c2eb-78cf911789b9
+HA Enabled              true
+HA Cluster              https://vault.leader.lab.io:8201
+HA Mode                 standby
+Active Node Address     http://vault.leader.lab.io:8200
+Raft Committed Index    39
+Raft Applied Index      39
+Key                     Value
+---                     -----
+Seal Type               shamir
+Initialized             true
+Sealed                  false
+Total Shares            5
+Threshold               3
+Version                 1.12.2
+Build Date              2022-11-23T12:53:46Z
+Storage Type            raft
+Cluster Name            vault-cluster-76b96042
+Cluster ID              01b0803f-f23e-c3cc-c2eb-78cf911789b9
+HA Enabled              true
+HA Cluster              https://vault.leader.lab.io:8201
+HA Mode                 standby
+Active Node Address     http://vault.leader.lab.io:8200
+Raft Committed Index    41
+Raft Applied Index      41
