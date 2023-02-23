@@ -1,5 +1,4 @@
 #!/bin/bash
-
 echo "* Add hosts ..."
 echo "192.168.89.101 vault.leader.lab.io vault.leader.lab.io" >> /etc/hosts
 echo "192.168.89.102 vault.follower1.lab.io vault.follower1.lab.io" >> /etc/hosts
