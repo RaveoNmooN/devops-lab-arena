@@ -2,7 +2,7 @@
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/RaveoNmooN/devops-lab-arena.svg) ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-This repository  will be used to store a different lab environments, hands-on learnings, experimentation related to DevOps tools & practices.
+This repository will be used to store a different lab environments, hands-on learnings, experiments and cheatsheets related to DevOps tools & practices.
 <br> At the moment I am working on expanding a lab environment for `HA HashiCorp Vault Cluster with integrated Raft Storage`
 
 ## Table of Contents
