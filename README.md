@@ -11,7 +11,7 @@ This repository  will be used to store a different lab environments, hands-on le
 
 ## To Do
 
-<br> Things that will be added as part of the provisioning of the [HA HashiCorp Vault Cluster deployed](https://github.com/RaveoNmooN/Vagrant-Labs/tree/master/HashiCorp%20Vault/HA_Raft_Cluster) via Vagrant / VirtualBox
+<br> Things that will be added as part of the provisioning of the [HA HashiCorp Vault Cluster](https://github.com/RaveoNmooN/devops-lab-arena/tree/master/HashiCorp%20Vault/ha-raft-cluster) via Vagrant / VirtualBox
 - [x] Add additional step in vault_follower_*.sh files that is starting and enabling the vault service for follower 1 and follower 2
 - [x] Create a provisioning step where Vault Cluster is automatically initialized, keys and root token are stored securly as variables which will be passed later on to the Unseal phase
 - [x] Create a provisioning step that is Unsealing all Vault nodes with the stored Shamir keys
