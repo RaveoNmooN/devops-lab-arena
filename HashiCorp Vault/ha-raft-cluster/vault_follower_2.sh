@@ -39,6 +39,9 @@ sudo chown vault:vault /etc/vault.d/*
 sudo chmod 664 /etc/vault.d/*
 sudo cp /vagrant/systemd/* /etc/systemd/system/
 sudo cp /vagrant/unseal-vault /etc/init.d/
+# Running sed, just in case there could be ^M character as a carriage return character, that is used by Windows operating systems to signify the end of a line.
+# That can cause issues if it is present in shell scripts or other text files.
+sudo sed -i 's/\r//g' /etc/init.d/unseal-vault 
 
 echo "* Create a cronjob that is enabling /etc/init.d/unseal-vault to be executed on reboots"
 sudo echo "@reboot sleep 10 && sh /etc/init.d/unseal-vault" > /var/spool/cron/vagrant
