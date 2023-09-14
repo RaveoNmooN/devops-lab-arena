@@ -1,0 +1,51 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  config.ssh.insert_key = false
+
+  config.vm.define "kubernetes.node1.lab.io" do |kubernetes_node1|
+    kubernetes_node1.vm.box="generic/ubuntu2204"
+    kubernetes_node1.vm.hostname = "kubernetes.node1.lab.io"
+    config.vm.provider "virtualbox"  do |kubernetes_node1|
+      kubernetes_node1.customize ["modifyvm", :id, "--cpus", "2"]
+    end
+    #kubernetes_node1.vm.network "public_network", ip: "192.168.0.106", bridge: "Intel(R) I211 Gigabit Network Connection"
+    kubernetes_node1.vm.network "private_network", ip: "192.168.89.101"
+    kubernetes_node1.vm.network "forwarded_port", guest: 80, host: 8080, auto_correct: true
+    kubernetes_node1.vm.network "forwarded_port", guest: 443, host: 1443, auto_correct: true
+    kubernetes_node1.vm.synced_folder "vagrant-shared", "/vagrant-shared"
+    #kubernetes_node1.vm.provision "shell", path: "kubernetes_node1.sh"
+  end
+
+  config.vm.define "kubernetes.node2.lab.io" do |kubernetes_node2|
+    kubernetes_node2.vm.box="generic/ubuntu2204"
+    kubernetes_node2.vm.hostname = "kubernetes.node2.lab.io"
+    config.vm.provider "virtualbox"  do |kubernetes_node2|
+      kubernetes_node2.customize ["modifyvm", :id, "--cpus", "2"]
+    end 
+    #kubernetes_node2.vm.network "public_network", ip: "192.168.0.107", bridge: "Intel(R) I211 Gigabit Network Connection"
+    kubernetes_node2.vm.network "private_network", ip: "192.168.89.102"
+    kubernetes_node2.vm.network "forwarded_port", guest: 80, host: 8081, auto_correct: true
+    kubernetes_node2.vm.network "forwarded_port", guest: 443, host: 1444, auto_correct: true
+    kubernetes_node2.vm.synced_folder "vagrant-shared", "/vagrant-shared"
+    #kubernetes_node2.vm.provision "shell", path: "vault_follower_1.sh"
+  end
+
+  config.vm.define "kubernetes.node3.lab.io" do |kubernetes_node3|
+    kubernetes_node3.vm.box="generic/ubuntu2204"
+    kubernetes_node3.vm.hostname = "kubernetes.node3.lab.io"
+    config.vm.provider "virtualbox"  do |kubernetes_node3|
+      kubernetes_node3.customize ["modifyvm", :id, "--cpus", "2"]
+    end
+    #kubernetes_node3.vm.network "public_network", ip: "192.168.0.108", bridge: "Intel(R) I211 Gigabit Network Connection"
+    kubernetes_node3.vm.network "private_network", ip: "192.168.89.103"
+    kubernetes_node3.vm.network "forwarded_port", guest: 80, host: 8082, auto_correct: true
+    kubernetes_node3.vm.network "forwarded_port", guest: 443, host: 1445, auto_correct: true
+    kubernetes_node3.vm.synced_folder "vagrant-shared", "/vagrant-shared"
+    #kubernetes_node3.vm.provision "shell", path: "vault_follower_2.sh"
+  end
+
+end
+ 
