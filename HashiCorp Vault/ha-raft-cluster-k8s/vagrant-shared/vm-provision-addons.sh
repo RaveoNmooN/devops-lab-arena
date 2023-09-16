@@ -1,7 +1,7 @@
 #!/bin/bash
 
-echo "* Update server ..."
-sudo apt-get update
+#echo "* Update server ..."
+#sudo apt-get update & sudo apt-upgrade -y
 
 echo "* Remove unwanted spaces ..."
 sudo sed -i 's/\r//g' /vagrant-shared/*
