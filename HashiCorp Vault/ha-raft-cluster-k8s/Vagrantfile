@@ -12,18 +12,20 @@ Vagrant.configure("2") do |config|
       kubernetes_node1.customize ["modifyvm", :id, "--cpus", "2"]
       kubernetes_node1.customize ["modifyvm", :id, "--memory", "4096"]
     end
-    kubernetes_node1.vm.network "public_network", ip: "192.168.0.106", bridge: "Intel(R) I211 Gigabit Network Connection" # Use if you want to specify static IP in a public network type.
-    # Check your machine configuration for your network bridge adaptor name 
-    #kubernetes_node1.vm.network "private_network", ip: "192.168.89.101" # Use if you want to specify static IP in a private network type
+    #kubernetes_node3.vm.network "public_network", ip: "192.168.0.106", bridge: "Intel(R) I211 Gigabit Network Connection" # Use if you want to specify static IP in a public network type.
+    # Check your machine configuration for your network bridge adaptor name.
+    kubernetes_node1.vm.network "public_network", ip: "192.168.0.106", bridge: "Intel(R) Wi-Fi 6 AX201 160MHz" # Use if you want to specify static IP in a public network type.
+    # Check your machine configuration for your network bridge adaptor name.
+    #kubernetes_node1.vm.network "private_network", ip: "192.168.89.101" # Use if you want to specify static IP in a private network type.
     kubernetes_node1.vm.network "forwarded_port", guest: 80, host: 8080, auto_correct: true
     kubernetes_node1.vm.network "forwarded_port", guest: 443, host: 1443, auto_correct: true
-    kubernetes_node1.vm.synced_folder "vagrant-shared", "/vagrant-shared"
+    kubernetes_node1.vm.synced_folder "vagrant-shared", "/vagrant-shared" # Mounts shared folder between the VM and Work station. Provision scripts are stored there as well.
     kubernetes_node1.vm.provision "shell", inline: "echo 'kubernetes.node1.lab.io' | sudo tee /etc/hostname && sudo hostnamectl set-hostname 'kubernetes.node1.lab.io'"
-    kubernetes_node1.vm.provision "shell", path: "vagrant-shared/vm-provision-addons.sh"
-    kubernetes_node1.vm.provision "shell", path: "vagrant-shared/setup-container-runtime.sh"
-    kubernetes_node1.vm.provision "shell", path: "vagrant-shared/setup-kubetools.sh"
-    kubernetes_node1.vm.provision "reload"  # Use vagrant-reload to specify boot timeout
-    kubernetes_node1.vm.boot_timeout = 1200  # Adjust the timeout value as needed
+    kubernetes_node1.vm.provision "shell", path: "vagrant-shared/vm-provision-addons.sh" # This script is updating /etc/hosts and PS1 profile.
+    kubernetes_node1.vm.provision "shell", path: "vagrant-shared/setup-container-runtime.sh" # This script is installing, configuring and starting containerd.
+    kubernetes_node1.vm.provision "shell", path: "vagrant-shared/setup-kubetools.sh"  # This script is installing and configuring kubelet, kubeadm & kubectl.
+    kubernetes_node1.vm.provision "reload"  # Use vagrant-reload to specify boot timeout.
+    kubernetes_node1.vm.boot_timeout = 1200  # Adjust the timeout value as needed.
   end
 
   config.vm.define "kubernetes.node2.lab.io" do |kubernetes_node2|
@@ -33,18 +35,20 @@ Vagrant.configure("2") do |config|
       kubernetes_node2.customize ["modifyvm", :id, "--cpus", "2"]
       kubernetes_node2.customize ["modifyvm", :id, "--memory", "4096"]
     end 
-    kubernetes_node2.vm.network "public_network", ip: "192.168.0.107", bridge: "Intel(R) I211 Gigabit Network Connection" # Use if you want to specify static IP in a public network type.
-    # Check your machine configuration for your network bridge adaptor name 
-    #kubernetes_node2.vm.network "private_network", ip: "192.168.89.102" # Use if you want to specify static IP in a private network type
+    #kubernetes_node3.vm.network "public_network", ip: "192.168.0.107", bridge: "Intel(R) I211 Gigabit Network Connection" # Use if you want to specify static IP in a public network type.
+    # Check your machine configuration for your network bridge adaptor name.
+    kubernetes_node2.vm.network "public_network", ip: "192.168.0.107", bridge: "Intel(R) Wi-Fi 6 AX201 160MHz" # Use if you want to specify static IP in a public network type.
+    # Check your machine configuration for your network bridge adaptor name.
+    #kubernetes_node2.vm.network "private_network", ip: "192.168.89.102" # Use if you want to specify static IP in a private network type.
     kubernetes_node2.vm.network "forwarded_port", guest: 80, host: 8081, auto_correct: true
     kubernetes_node2.vm.network "forwarded_port", guest: 443, host: 1444, auto_correct: true
-    kubernetes_node2.vm.synced_folder "vagrant-shared", "/vagrant-shared"
+    kubernetes_node2.vm.synced_folder "vagrant-shared", "/vagrant-shared" # Mounts shared folder between the VM and Work station. Provision scripts are stored there as well.
     kubernetes_node2.vm.provision "shell", inline: "echo 'kubernetes.node2.lab.io' | sudo tee /etc/hostname && sudo hostnamectl set-hostname 'kubernetes.node2.lab.io'"
-    kubernetes_node2.vm.provision "shell", path: "vagrant-shared/vm-provision-addons.sh"
-    kubernetes_node2.vm.provision "shell", path: "vagrant-shared/setup-container-runtime.sh"
-    kubernetes_node2.vm.provision "shell", path: "vagrant-shared/setup-kubetools.sh"
-    kubernetes_node2.vm.provision "reload"  # Use vagrant-reload to specify boot timeout
-    kubernetes_node2.vm.boot_timeout = 1200  # Adjust the timeout value as needed
+    kubernetes_node2.vm.provision "shell", path: "vagrant-shared/vm-provision-addons.sh" # This script is updating /etc/hosts and PS1 profile.
+    kubernetes_node2.vm.provision "shell", path: "vagrant-shared/setup-container-runtime.sh" # This script is installing, configuring and starting containerd.
+    kubernetes_node2.vm.provision "shell", path: "vagrant-shared/setup-kubetools.sh" # This script is installing and configuring kubelet, kubeadm & kubectl.
+    kubernetes_node2.vm.provision "reload"  # Use vagrant-reload to specify boot timeout.
+    kubernetes_node2.vm.boot_timeout = 1200  # Adjust the timeout value as needed.
   end
 
   config.vm.define "kubernetes.node3.lab.io" do |kubernetes_node3|
@@ -54,18 +58,20 @@ Vagrant.configure("2") do |config|
       kubernetes_node3.customize ["modifyvm", :id, "--cpus", "2"]
       kubernetes_node3.customize ["modifyvm", :id, "--memory", "4096"]
     end
-    kubernetes_node3.vm.network "public_network", ip: "192.168.0.108", bridge: "Intel(R) I211 Gigabit Network Connection" # Use if you want to specify static IP in a public network type.
+    #kubernetes_node3.vm.network "public_network", ip: "192.168.0.108", bridge: "Intel(R) I211 Gigabit Network Connection" # Use if you want to specify static IP in a public network type.
+    # Check your machine configuration for your network bridge adaptor name
+    kubernetes_node3.vm.network "public_network", ip: "192.168.0.108", bridge: "Intel(R) Wi-Fi 6 AX201 160MHz" # Use if you want to specify static IP in a public network type.
     # Check your machine configuration for your network bridge adaptor name 
     #kubernetes_node3.vm.network "private_network", ip: "192.168.89.103" # Use if you want to specify static IP in a private network type
     kubernetes_node3.vm.network "forwarded_port", guest: 80, host: 8082, auto_correct: true
     kubernetes_node3.vm.network "forwarded_port", guest: 443, host: 1445, auto_correct: true
-    kubernetes_node3.vm.synced_folder "vagrant-shared", "/vagrant-shared"
+    kubernetes_node3.vm.synced_folder "vagrant-shared", "/vagrant-shared" # Mounts shared folder between the VM and Work station. Provision scripts are stored there as well.
     kubernetes_node3.vm.provision "shell", inline: "echo 'kubernetes.node3.lab.io' | sudo tee /etc/hostname && sudo hostnamectl set-hostname 'kubernetes.node3.lab.io'"
-    kubernetes_node3.vm.provision "shell", path: "vagrant-shared/vm-provision-addons.sh"
-    kubernetes_node3.vm.provision "shell", path: "vagrant-shared/setup-container-runtime.sh"
-    kubernetes_node3.vm.provision "shell", path: "vagrant-shared/setup-kubetools.sh"
-    kubernetes_node3.vm.provision "reload"  # Use vagrant-reload to specify boot timeout
-    kubernetes_node3.vm.boot_timeout = 1200  # Adjust the timeout value as needed
+    kubernetes_node3.vm.provision "shell", path: "vagrant-shared/vm-provision-addons.sh" # This script is updating /etc/hosts and PS1 profile.
+    kubernetes_node3.vm.provision "shell", path: "vagrant-shared/setup-container-runtime.sh" # This script is installing, configuring and starting containerd.
+    kubernetes_node3.vm.provision "shell", path: "vagrant-shared/setup-kubetools.sh" # This script is installing and configuring kubelet, kubeadm & kubectl.
+    kubernetes_node3.vm.provision "reload"  # Use vagrant-reload to specify boot timeout.
+    kubernetes_node3.vm.boot_timeout = 1200  # Adjust the timeout value as needed.
   end
 
 end
