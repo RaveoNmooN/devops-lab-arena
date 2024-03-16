@@ -1,5 +1,11 @@
 ---
-# tasks file for upgrade_vault_cluster---
+# Upgrade HashiCorp Vault Cluster Nodes to the latest version
+- hosts: all:!localhost
+  gather_facts: no
+  vars:
+    ansible_limit: vault_dev
+  serial: 1
+  tasks:
   - name: Upgrade HashiCorp Vault Node
     debug:
       msg: "HashiCorp Vault {{ hostvars[inventory_hostname]['node'] }} upgrade is initialized..."
@@ -8,7 +14,12 @@
   - name: Show job limit parameter
     debug:
       msg: "Running playbook against hosts in group '{{ ansible_limit }}'"
+   
 
+  - name: Take a snapshot on before the upgrade only if this is the current leader node
+    script: "roles/upgrade_vault_cluster/files/pre-upgrade-snapshot.sh"
+    register: snapshot_result
+ 
 
   - name: Stop Vault service
     systemd:
@@ -16,7 +27,8 @@
       state: stopped
       enabled: no
     register: stop_vault_service
-
+    when: snapshot_result.rc == 0
+ 
 
   - name: Upgrade Vault package
     yum:
@@ -25,65 +37,65 @@
     environment:
       https_proxy: "{{ http_proxy }}"
     register: upgrade_vault_version
-
-
+ 
+ 
   - name: Start Vault service
     systemd:
       name: vault
       state: started
       enabled: yes
     register: start_vault_service
-
-
+ 
+ 
   - name: Pause for 10 seconds service to be up and running
     pause:
       seconds: 5
-
-
+ 
+ 
   - name: Check Vault service status
     command: systemctl status vault
     register: vault_status
-
-
+ 
+ 
   - name: Handle error if Vault service is not running
     fail:
       msg: "Vault service is not running!"
     when: vault_status.rc != 0
-
-
+ 
+ 
   - name: Check if Vault node is sealed
     shell: vault status -format=json | jq -r '.sealed'
     environment:
       VAULT_ADDR: "{{ hostvars[inventory_hostname]['url'] }}"
     register: vault_sealed_status
-
-
+ 
+ 
   - name: Debuging Sealed status
     ansible.builtin.debug:
       msg: "{{ vault_sealed_status.stdout_lines }}"
-
+ 
 
   - name: Unseal Vault node
     shell: vault operator unseal "{{ item }}"
-    loop: "{{ vault_unseal_keys }}"
+    loop: "{{ vault_keys_dev }}"
     environment:
       VAULT_ADDR: "{{ hostvars[inventory_hostname]['url'] }}"
-    when: vault_sealed_status.stdout == 'true' and ansible_limit == 'vault_test'
+    when: vault_sealed_status.stdout == 'true' and ansible_limit == 'vault_dev'
     register: vault_unsealing_status
     no_log: true
-
+ 
 
   - name: Pause for 15 seconds so node becomes aligable voter
     pause:
       seconds: 15
-
+ 
 
   - name: Check if Vault node is sealed
     shell: vault status -format=json | jq -r '.sealed'
     environment:
       VAULT_ADDR: "{{ hostvars[inventory_hostname]['url'] }}"
     register: vault_sealed_status
-
+ 
 
   - name: Debuging Unsealed status
     ansible.builtin.debug:
