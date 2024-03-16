@@ -1,0 +1,26 @@
+---
+# This playbook installs redis and enables fact caching for ansible
+- name: Install redis and enable fact caching for ansible
+  hosts: localhost
+  become: yes
+  tasks:
+  - name: Install redis
+    package: 
+      name: redis
+      state: latest
+  - name: Start and Enable
+    service:
+      name: redis
+      state: started
+      enabled: yes
+  - name: Install redis python package for ansible fact caching
+    pip:
+      name: redis
+  - debug:
+      msg: |
+        "IMPORTANT - change all ansible.cfg files to include the following
+        fact_caching = redis
+        fact_caching_timeout = 3600
+        fact_caching_connnection = localhost:6379:0
+        gather_facts:no"
+...

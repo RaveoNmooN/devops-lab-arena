@@ -1,0 +1,8 @@
+---
+- name: Check fact cashing through Redis
+  hosts: localhost
+  gather_facts: False
+  tasks:
+  - debug:
+      var: ansible_facts
+...

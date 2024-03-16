@@ -1,0 +1,6 @@
+python3.9 [platform:rpm compile]
+python3-jinja2 [platform:rpm]
+which [platform:rpm]
+git [platform:rpm]
+libxml2-devel [platform:rpm]
+libxslt-devel [platform:rpm]

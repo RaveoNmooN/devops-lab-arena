@@ -1,0 +1,14 @@
+---
+- name: Check if host IP is within a desired subnet
+  hosts: localhost
+  gather_facts: no
+  vars:
+    lan_ip: "192.168.200.0/24"
+    host_ip: "192.168.200.10"
+
+  tasks:
+    - name: Debug task to check if host IP matches subnet
+      debug:
+        msg: "Host IP {{ host_ip }} is within the subnet {{ lan_ip }}"
+      when: lan_ip | ansible.utils.network_in_usable(host_ip) 
+...

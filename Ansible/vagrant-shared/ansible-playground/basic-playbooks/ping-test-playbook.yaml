@@ -1,0 +1,14 @@
+---
+- name: Test the managed nodes
+  hosts: managed-nodes
+  become: true
+  become_user: root
+  tasks:
+    - name: Ping the nodes
+      ansible.builtin.ping:
+      register: ping_reponse
+
+    - name: Debug the pong response
+      debug:
+        msg: "{{ ping_reponse }}"
+...

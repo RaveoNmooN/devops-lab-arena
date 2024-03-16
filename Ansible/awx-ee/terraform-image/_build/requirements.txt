@@ -1,0 +1,5 @@
+httpie-edgegrid
+infoblox-client
+jmespath
+urllib3
+pyOpenSSL==19.0.0

@@ -1,0 +1,23 @@
+---
+version: 3
+ 
+images:
+  base_image:
+    name: quay.io/ansible/awx-ee:24.0.0
+ 
+dependencies:
+  # Collections to be installed using Galaxy
+  galaxy: requirements.yml
+  # Python packages to be installed using pip
+  python: requirements.txt
+  # Additional packages to be installed using base image package manage. Downstream images use non-standard package manager (microdnf).
+  system: bindep.txt
+additional_build_steps:
+  append_builder:
+    - RUN dnf install -y dnf-plugins-core && \
+          dnf config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo && \
+          yum install -y terraform-1.7.4-1.x86_64 && \
+          curl --fail --location --silent --show-error "https://raw.githubusercontent.com/akamai/edgegrid-curl/master/egcurl" > /usr/bin/egcurl && \
+          chmod +x /usr/bin/egcurl
+
+# If proxy is needed run 'export HTTPS_PROXY=https://PROXY-FQDN:3128 && \' before executing dnf commands"

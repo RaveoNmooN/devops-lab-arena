@@ -1,0 +1,11 @@
+---
+# AWX EE requirements file for Ansible Galaxy collections used in the execution environment.
+# Those collections are pre-installed in the execution environment image and used for the dependencies section in the execution_environment file.
+
+collections:
+  - name: community.general
+  - name: ansible.netcommon
+  - name: community.windows
+  - name: chocolatey.chocolatey
+  - name: servicenow.servicenow
+  - name: infoblox.nios_modules

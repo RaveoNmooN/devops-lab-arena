@@ -1,0 +1,2 @@
+[managed-nodes]
+ansible.node[2:3].lab.io
